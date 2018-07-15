@@ -74,12 +74,12 @@ public class vector {
 		return output;
 	}
 	
-	public static void performGaussJordanElimination (vector... input) {
+	public static vector[] performGaussJordanElimination (vector... input) {
 		// cannot be performed if dimensions are not NxM
 		int len = input[0].dim ();
 		for (int i = 1; i < input.length; i++) {
 			if (input[i].dim () != len)
-				return;
+				return null;
 		}
 		
 		// create matrix
@@ -161,6 +161,7 @@ public class vector {
 		
 		System.out.println ("span: " + span.size ());
 		
+		return arr;
 	}
 	
 	/** 
