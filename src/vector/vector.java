@@ -63,6 +63,73 @@ public class vector {
 		return output;
 	}
 	
+	public static void performGaussJordanElimination (vector... input) {
+		int len = input[0].dim ();
+		for (int i = 1; i < input.length; i++) {
+			if (input[i].dim () != len)
+				return;
+		}
+		
+		vector[] arr = new vector[len];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = new vector (input.length);
+			for (int j = 0; j < input.length; j++) {
+				arr[i].setElement (j, input[j].getElement (i));
+			}
+		}
+		
+		int j = 0;
+		for (int i = 0; i < arr.length; i++) {
+			
+			// search for non zero at j index
+			boolean flag = false;
+			do {
+				for (int k = i; k < arr.length; k++) {
+					if (arr[k].getElement (j) != 0) {
+						flag = true;
+						break;
+					}
+				}
+				
+				if (!flag) j++;
+			} while (!flag && j < arr[i].dim ());
+			
+			if (j >= arr[i].dim ()) break;
+			
+			// sort array -> all zeroes below
+			int x = i, y = arr.length - 1;
+			while (x < y) {
+				while (arr[y].getElement (j) == 0) y--;
+				if (arr[x].getElement (j) == 0) {
+					vector temp = arr[x];
+					arr[x] = arr[y];
+					arr[y] = temp; 
+					y--;
+				}
+				x++;
+			}
+			
+			// scale for row echelon form
+			arr[i] = arr[i].scale (1.0 / arr[i].getElement (j));
+			// scale then subtract to zero indices below [i][j]
+			for (int k = i + 1; k < arr.length; k++) {
+				if (arr[k].getElement (j) != 0) {
+					arr[k] = arr[k].scale (- 1.0 / arr[k].getElement (j));
+					arr[k] = arr[k].add (arr[i]);
+				}
+			}
+		
+			for (int k = 0; k < arr.length; k++) {
+				System.out.println (arr[k]);
+			}
+			System.out.println ();
+			j++;
+		}
+		
+		
+		
+	}
+	
 	/** 
 	* @return returns the size/dimensions of this vector
 	*/
@@ -121,7 +188,7 @@ public class vector {
 		sb.append ("[");
 		
 		for (int i = 0; i < dim (); i++) {
-			sb.append (elements[i])
+			sb.append (String.format ("%.2f", elements[i]))
 				.append ((i + 1 == dim () ? "" : ", "));
 		}
 		sb.append ("]");
