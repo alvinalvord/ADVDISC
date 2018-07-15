@@ -98,6 +98,9 @@ public class vector {
 			// search for non zero at j index
 			boolean flag = false;
 			do {
+				if (j >= arr[i].dim ())
+					break;
+				
 				for (int k = i; k < arr.length; k++) {
 					if (arr[k].getElement (j) != 0) {
 						flag = true;
@@ -106,9 +109,9 @@ public class vector {
 				}
 				
 				if (!flag) j++;
-			} while (!flag && j < arr[i].dim ());
+			} while (!flag);
 			
-			if (j >= arr[i].dim ()) break;
+			if (!flag) break;
 			
 			span.add (j);
 			
