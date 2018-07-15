@@ -91,6 +91,8 @@ public class vector {
 			}
 		}
 		
+		vector.printVectorArray (arr);
+		
 		int j = 0;
 		java.util.List <Integer> span = new java.util.ArrayList<> ();
 		for (int i = 0; i < arr.length; i++) {
@@ -138,11 +140,9 @@ public class vector {
 				}
 			}
 		
-			for (int k = 0; k < arr.length; k++) {
-				System.out.println (arr[k]);
-			}
-			System.out.println ();
 			j++;
+		
+			vector.printVectorArray (arr);
 		}
 		
 		for (int i = 1; i < span.size (); i++) {
@@ -154,10 +154,7 @@ public class vector {
 				arr[k] = arr[k].add (temp);
 			}
 			
-			for (int k = 0; k < arr.length; k++) {
-				System.out.println (arr[k]);
-			}
-			System.out.println ();
+			vector.printVectorArray (arr);
 			
 		}
 		
@@ -212,6 +209,13 @@ public class vector {
 		}
 		elements = newArray;
 		return this;
+	}
+	
+	public static void printVectorArray (vector... arr) {
+		for (int i = 0; i < arr.length; i++) {
+			System.out.println (arr[i]);
+		}
+		System.out.println ();
 	}
 	
 	/**
