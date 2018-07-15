@@ -30,6 +30,17 @@ public class vector {
 	}
 	
 	/**
+	* Creates a copy of a vector
+	* @param v the vector to be copied
+	*/
+	public vector (vector v) {
+		this.elements = new double[v.dim ()];
+		for (int i = 0; i < this.elements.length; i++) {
+			this.elements[i] = v.getElement (i);
+		}
+	}
+	
+	/**
 	* Creates a new vector to contain the sum of this vector and another vector
 	* vector is undefined (null) if the dimensions of this vector and the other vector do not match
 	* @param other another vector to be added to this vector
@@ -64,12 +75,14 @@ public class vector {
 	}
 	
 	public static void performGaussJordanElimination (vector... input) {
+		// cannot be performed if dimensions are not NxM
 		int len = input[0].dim ();
 		for (int i = 1; i < input.length; i++) {
 			if (input[i].dim () != len)
 				return;
 		}
 		
+		// create matrix
 		vector[] arr = new vector[len];
 		for (int i = 0; i < arr.length; i++) {
 			arr[i] = new vector (input.length);
@@ -79,6 +92,7 @@ public class vector {
 		}
 		
 		int j = 0;
+		java.util.List <Integer> span = new java.util.ArrayList<> ();
 		for (int i = 0; i < arr.length; i++) {
 			
 			// search for non zero at j index
@@ -95,6 +109,8 @@ public class vector {
 			} while (!flag && j < arr[i].dim ());
 			
 			if (j >= arr[i].dim ()) break;
+			
+			span.add (j);
 			
 			// sort array -> all zeroes below
 			int x = i, y = arr.length - 1;
@@ -126,7 +142,24 @@ public class vector {
 			j++;
 		}
 		
+		for (int i = 1; i < span.size (); i++) {
+			j = span.get (i);
+			
+			for (int k = i - 1; k >= 0; k--) {
+				vector temp = new vector (arr[i]);
+				temp = temp.scale (- arr[k].getElement (j) / arr[i].getElement (j));
+				arr[k] = arr[k].add (temp);
+			}
+			
+			for (int k = 0; k < arr.length; k++) {
+				System.out.println (arr[k]);
+			}
+			System.out.println ();
+			
+		}
 		
+		
+		System.out.println ("span: " + span.size ());
 		
 	}
 	
@@ -188,7 +221,7 @@ public class vector {
 		sb.append ("[");
 		
 		for (int i = 0; i < dim (); i++) {
-			sb.append (String.format ("%.2f", elements[i]))
+			sb.append (String.format ("%.2f", elements[i] + 0.0))
 				.append ((i + 1 == dim () ? "" : ", "));
 		}
 		sb.append ("]");
