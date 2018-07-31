@@ -156,11 +156,12 @@ public class Vector {
 			
 			for (int k = i - 1; k >= 0; k--) {
 				Vector temp = new Vector (arr[i].elements, arr[i].dimension);
+				double tempconst = constants.elements[i];
 				
-				constants.elements[k] *= (- arr[k].elements[j] / arr[i].elements[j]);
-				temp = temp.scale (- arr[k].elements[j] / arr[i].elements[j]);
+				tempconst *= (-arr[k].elements[j] / arr[i].elements[j]);
+				temp = temp.scale (-arr[k].elements[j] / arr[i].elements[j]);
 				
-				constants.elements[k] += constants.elements[j];
+				constants.elements[k] += tempconst;
 				arr[k] = arr[k].add (temp);
 			}
 			
