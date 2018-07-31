@@ -1,5 +1,5 @@
 /**
-* ADVDISC MP1
+* ADVDISC S18 MP1
 * @author Aguila, Norielle E.
 * @author Chan, Nyles S.
 * @author Pillejera, Jasper Glen A.
