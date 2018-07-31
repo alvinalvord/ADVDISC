@@ -1,9 +1,9 @@
-import vector.vector;
+import java.util.*;
 
 public class Driver {
 	
 	public static void main (String[] args) {
-		vector[] arr;
+		Vector[] arr;
 		/*--------------- SAMPLE 01 ---------------*
 			arr = new vector[3];
 			vector a = new vector (5, 3, 5, 8, 2);
@@ -36,12 +36,18 @@ public class Driver {
 			arr[2] = new vector ((double)3);
 		/*------------ END OF SAMPLE 4 ------------*/
 		/*--------------- SAMPLE 05 ---------------*/
-			arr = new vector[3];
-			arr[0] = new vector (0, 0, 5);
-			arr[1] = new vector (0, 0, 10);
-			arr[2] = new vector (1, 1, 10);
+			arr = new Vector[3];
+			arr[0] = new Vector (new double[] {0, 0, 5}, 3);
+			arr[1] = new Vector (new double[] {0, 0, 10}, 3);
+			arr[2] = new Vector (new double[] {1, 1, 10}, 3);
 		/*------------ END OF SAMPLE 5 ------------*/
-		vector.performGaussJordanElimination (arr);
+		List<Vector> list = new ArrayList<> ();
+		list.add (arr[0]);
+		list.add (arr[1]);
+		list.add (arr[2]);
+		Vector v = Vector.Gauss_Jordan (list, 3, new Vector (new double[] {1, 2, 3}, 3));
+		
+		System.out.println (v);
 	}
 	
 }
