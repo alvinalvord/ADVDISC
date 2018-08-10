@@ -5,11 +5,14 @@
 * @author Pillejera, Jasper Glen A.
 */
 
-public class Matrix{
-	
+import java.util.List;
+import java.util.ArrayList;
+
+public class Matrix {
+
 	private Vector[] vectors;
 	private int dimension;
-	
+
 	/*
 		Default constructor to create an identity matrix of a given dimension
 	*/
@@ -25,8 +28,7 @@ public class Matrix{
 			vectors[i] = new Vector(temp, dimension);
 		}
 	}
-	
-	
+
 	/*
 		Default constructor converting a list of Vectors into a matrix
 		@param dimension - length of each Vector in the list
@@ -49,8 +51,20 @@ public class Matrix{
 			vectors[i] = temp.get(i);
 		}
 	}
+
+	public static Matrix times (Matrix other) {
+		//size mismatch must be handled
+		//return product;
+	} //a.times(b) --> product
+	
+	public static double det() {
+		//gauss-jordan
+		//return determinant;
+	} //m.det() --> determinant
+
+	public static Matrix inverse() {
+		//return null if not invertible (no inverse)
+		//return inversed;
+	} //m.inverse() --> inverse
+
 }
-
-
-
-
