@@ -55,7 +55,7 @@ public class Driver {
 		System.out.println (v);
 		System.out.println (Vector.span (list, 3));
 		/*------------ END OF SAMPLE 3 ------------*/
-		/*--------------- SAMPLE 04 ---------------*/
+		/*--------------- SAMPLE 04 ---------------*
 		
 		arr = new Vector[4];
 		arr[0] = new Vector (new double[] {1, 0, -4, 2}, 4);
@@ -74,6 +74,22 @@ public class Driver {
 		System.out.println (v);
 		System.out.println (Vector.span (list, 4));
 		/*------------ END OF SAMPLE 4 ------------*/
+		/*--------------- SAMPLE 05 ---------------*/
+		
+		arr = new Vector[2];
+		arr[0] = new Vector (new double[] {1, 2}, 2);
+		arr[1] = new Vector (new double[] {0, 1}, 2);
+		
+		List<Vector> list = new ArrayList<> ();
+		list.add (arr[0]);
+		list.add (arr[1]);
+
+		Matrix trix = new Matrix(list, 2);
+
+		//
+		
+		System.out.println (trix);
+		/*------------ END OF SAMPLE 5 ------------*/
 	}
 	
 }

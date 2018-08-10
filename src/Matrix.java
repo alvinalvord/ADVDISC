@@ -34,24 +34,24 @@ public class Matrix {
 		@param dimension - length of each Vector in the list
 	*/
 	public Matrix (List<Vector> list, int dimension){
-		List<Vector> temp = new List<>();
+		List<Vector> temp = new ArrayList<>();
 		
 		for(int i = 0; i < dimension; i++){
 			double[] elements = new double[list.size()];
+			Vector tempVector = list.get(i);
 		
-			for(int i = 0; i < list.size(); i++){
-				Vector tempVector = list.get(i);
-				elements[i] = tempVector[index];
+			for(int j = 0; j < list.size(); j++){
+				elements[j] = tempVector.getElement(j);
 			}
 		}
 		
-		vectors = new Vector[list.size];
+		vectors = new Vector[list.size()];
 		
-		for(int i = 0; i < list.size(); i++){
+		for(int i = 0; i < temp.size(); i++){
 			vectors[i] = temp.get(i);
 		}
 	}
-
+/*
 	public static Matrix times (Matrix other) {
 		//size mismatch must be handled
 		//return product;
@@ -66,5 +66,5 @@ public class Matrix {
 		//return null if not invertible (no inverse)
 		//return inversed;
 	} //m.inverse() --> inverse
-
+*/
 }
