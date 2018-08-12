@@ -70,9 +70,9 @@ public class Matrix {
 			for (int y = 0; y < dimension; y++) {
 				element = 0;
 				for (int x = 0; x < dimension; x++) {
-					element += a.get(x).vectors[z] * b.get(y).vectors[x]; //BUG: can't .get()???
+					element += a.vectors[x].getElement(z) * b.vectors[y].getElement(x); //BUG: can't .get()???
 				}
-				product.get(y).vectors[z] = element; //BUG: can't .get()???
+				product.vectors[y].setElement(z, element); //BUG: can't .get()???
 			}
 		}
 		return product;
