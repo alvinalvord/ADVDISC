@@ -34,6 +34,8 @@ public class Matrix {
 		@param dimension - length of each Vector in the list
 	*/
 	public Matrix (List<Vector> list, int dimension){
+		this.dimension = dimension;
+
 		List<Vector> temp = new ArrayList<>();
 		
 		for(int i = 0; i < dimension; i++){
@@ -43,6 +45,7 @@ public class Matrix {
 			for(int j = 0; j < list.size(); j++){
 				elements[j] = tempVector.getElement(j);
 			}
+			temp.add(new Vector(elements, dimension));
 		}
 		
 		vectors = new Vector[list.size()];
@@ -50,13 +53,34 @@ public class Matrix {
 		for(int i = 0; i < temp.size(); i++){
 			vectors[i] = temp.get(i);
 		}
+
+		this.vectors = vectors;
 	}
-/*
+
 	public static Matrix times (Matrix other) {
-		//size mismatch must be handled
-		//return product;
+		int dimension = other.dimension; 
+		Matrix product = new Matrix (dimension);
+		Matrix a = this; //BUG: how do you reference self?
+		Matrix b = other;
+		double element = 0;
+		for (int z = 0; z < dimension; z++) {
+			for (int y = 0; y < dimension; y++) {
+				element = 0;
+				for (int x = 0; x < dimension; x++) {
+					element += a.get(x).vectors[z] * b.get(y).vectors[x]; //BUG: can't .get()???
+				}
+				product.get(y).vectors[z] = element; //BUG: can't .get()???
+			}
+		}
+		return product;
 	} //a.times(b) --> product
-	
+
+	//stuff not considered:
+	//size mismatch not yet handled
+	//different sizes but valid multiplied matrices (currently, the dimension refers to same sizes for all, so n x n and n x n)
+
+
+	/*
 	public static double det() {
 		//gauss-jordan
 		//return determinant;
@@ -66,5 +90,24 @@ public class Matrix {
 		//return null if not invertible (no inverse)
 		//return inversed;
 	} //m.inverse() --> inverse
-*/
+	*/
+
+	/**
+	* returns the comma separated values of the vector enclosed
+	*		by square brackets []
+	* @return string representation of this vector
+	*/
+	public String toString () {
+		StringBuilder sb = new StringBuilder ();
+		sb.append ("[");
+		
+		for (int i = 0; i < dimension; i++) {
+			sb.append (String.format ("%.2f", vectors[i] + 0.0))
+				.append ((i + 1 == dimension ? "" : ", "));
+		}
+		sb.append ("]");
+		
+		return sb.toString ();
+	}
+
 }
