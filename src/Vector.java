@@ -37,6 +37,14 @@ public class Vector {
 	}
 
 	/**
+	* Returns the dimension of the vector.
+	* @param dimension of the vector
+	*/
+	public double getDimension() {
+		return dimension;
+	}
+
+	/**
 	* Returns an element of the Vector's one-dimensional double array.
 	* @param index of the array
 	*/
