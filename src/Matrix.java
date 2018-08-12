@@ -1,5 +1,5 @@
 /**
-* ADVDISC S18 MP1
+* ADVDISC S18 MP2
 * @author Aguila, Norielle E.
 * @author Chan, Nyles S.
 * @author Pillejera, Jasper Glen A.
@@ -11,13 +11,13 @@ import java.util.ArrayList;
 public class Matrix {
 
 	private Vector[] vectors;
-	private int dimension;
+	private final int numRow;
+	private final int numCol;
 
 	/*
 		Default constructor to create an identity matrix of a given dimension
 	*/
 	public Matrix(int dimension){
-		this.dimension = dimension;
 		
 		this.vectors = new Vector[dimension];
 		
@@ -27,6 +27,9 @@ public class Matrix {
 			
 			vectors[i] = new Vector(temp, dimension);
 		}
+		
+		numRow = dimension;
+		numCol = vectors.length;
 	}
 
 	/*
