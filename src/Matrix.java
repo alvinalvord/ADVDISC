@@ -28,8 +28,8 @@ public class Matrix {
 			vectors[i] = new Vector(temp, dimension);
 		}
 		
-		numRow = dimension;
-		numCol = vectors.length;
+		numRow = vectors.length;
+		numCol = dimension;
 	}
 
 	/*
@@ -37,8 +37,6 @@ public class Matrix {
 		@param dimension - length of each Vector in the list
 	*/
 	public Matrix (List<Vector> list, int dimension){
-		this.dimension = dimension;
-
 		List<Vector> temp = new ArrayList<>();
 		
 		for(int i = 0; i < dimension; i++){
@@ -58,6 +56,9 @@ public class Matrix {
 		}
 
 		this.vectors = vectors;
+		
+		numRow = vectors.length;
+		numCol = dimension;
 	}
 
 	public static Matrix times (Matrix other) {
