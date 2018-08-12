@@ -18,7 +18,6 @@ public class Matrix {
 		Default constructor to create an identity matrix of a given dimension
 	*/
 	public Matrix(int dimension){
-		
 		this.vectors = new Vector[dimension];
 		
 		for(int i = 0; i < dimension; i++){
@@ -27,7 +26,7 @@ public class Matrix {
 			
 			vectors[i] = new Vector(temp, dimension);
 		}
-		
+
 		numRow = vectors.length;
 		numCol = dimension;
 	}
@@ -62,7 +61,7 @@ public class Matrix {
 	}
 
 	public static Matrix times (Matrix other) {
-		int dimension = other.dimension; 
+		int dimension = numCol; 
 		Matrix product = new Matrix (dimension);
 		Matrix a = this; //BUG: how do you reference self?
 		Matrix b = other;
@@ -71,9 +70,9 @@ public class Matrix {
 			for (int y = 0; y < dimension; y++) {
 				element = 0;
 				for (int x = 0; x < dimension; x++) {
-					element += a.vectors[x].getElement(z) * b.vectors[y].getElement(x); //BUG: can't .get()???
+					element += a.vectors[x].getElement(z) * b.vectors[y].getElement(x);
 				}
-				product.vectors[y].setElement(z, element); //BUG: can't .get()???
+				product.vectors[y].setElement(z, element);
 			}
 		}
 		return product;
@@ -83,18 +82,20 @@ public class Matrix {
 	//size mismatch not yet handled
 	//different sizes but valid multiplied matrices (currently, the dimension refers to same sizes for all, so n x n and n x n)
 
-
-	/*
 	public static double det() {
+		double determinant;
 		//gauss-jordan
-		//return determinant;
+		return determinant;
 	} //m.det() --> determinant
 
 	public static Matrix inverse() {
-		//return null if not invertible (no inverse)
-		//return inversed;
+		Matrix inversed = new Matrix(numCol);
+		//gauss-jordan
+		//perform(blackMagic);
+		return inversed;
 	} //m.inverse() --> inverse
-	*/
+
+	//return null if not invertible (no inverse)
 
 	/**
 	* returns the comma separated values of the vector enclosed
@@ -105,9 +106,9 @@ public class Matrix {
 		StringBuilder sb = new StringBuilder ();
 		sb.append ("[");
 		
-		for (int i = 0; i < dimension; i++) {
-			sb.append (String.format ("%.2f", vectors[i] + 0.0))
-				.append ((i + 1 == dimension ? "" : ", "));
+		for (int i = 0; i < vectors[i].getDimension(); i++) {
+			sb.append (String.format ("%.2f", vectors[i].getElement(i) + 0.0))
+				.append ((i + 1 == vectors[i].getDimension() ? "" : ", "));
 		}
 		sb.append ("]");
 		
