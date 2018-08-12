@@ -43,6 +43,15 @@ public class Vector {
 	public double getElement(int index) {
 		return elements[index];
 	}
+
+	/**
+	* Returns and modifies an element of the Vector's one-dimensional double array given the index number.
+	* @param index of the array to be modified
+	* @param element to be set
+	*/
+	public double setElement(int index, double element) {
+		return elements[index] = element;
+	}
 	
 	/**
 	* Creates a new vector to contain the sum of this vector and another vector
