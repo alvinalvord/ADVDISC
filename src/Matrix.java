@@ -69,7 +69,7 @@ public class Matrix {
 		
 		// check if multiplication is legal
 		// should be n x m * m x p
-		if(this.numRow != other.getNumCol())
+		if(this.numCol != other.getNumRow())
 			return null;
 		
 		// initialize list of vectors
@@ -77,49 +77,31 @@ public class Matrix {
 			outVectors.add(new Vector(numRow));
 		}
 		
-//		for(int i = 0; i < this.numRow; i++){
-//			
-//			double result = 0;
-//			
-//			for(int j = 0; j < this.numCol; j++){
-//				System.out.println("[" + i + "] [" + j + "]");
-//				
-//				for(int k = 0; k < other.numRow; k++){
-//					
-//					System.out.println(vectors[i].getElement(j) + "*" + other.getVectors()[j].getElement(k));
-//					
-//					result += vectors[i].getElement(j) * other.getVectors()[j].getElement(k);
-//				}
-//				System.out.println(result);
-//			}
-//			System.out.println();
-//			
-//			outVectors.get(i).setElement(i, result);
-//		}
-		
-		for(int i = 0; i < other.numRow; i++){
-			
-			double result = 0;
-			
-			for(int j = 0; j < other.numCol; j++){
-				System.out.println("[" + i + "] [" + j + "]");
+		for(int x = 0; x < outVectors.size(); x++){
+			for(int i = 0; i < this.numRow; i++){
 				
-				for(int k = 0; k < this.numRow; k++){
+				double result = 0;
+				
+				for(int j = 0; j < this.numCol; j++){
+					System.out.println("[" + i + "] [" + j + "]");
 					
-					System.out.println(vectors[j].getElement(k) * other.getVectors()[i].getElement(j));
-					
-					result += vectors[j].getElement(k) * other.getVectors()[i].getElement(j);
-					
-					
+					for(int k = 0; k < other.numCol; k++){
+						
+						System.out.println(vectors[i].getElement(j) + "*" + other.getVectors()[j].getElement(k));
+						
+						result += vectors[i].getElement(j) * other.getVectors()[j].getElement(k);
+					}
+					System.out.println(result);
 				}
-				System.out.println(result);
+				System.out.println();
+				
+				// not working
+				outVectors.get(x)
+					.setElement(i, result);
 			}
-			System.out.println();
-			
-			outVectors.get(i).setElement(i, result);
 		}
 		
-		out = new Matrix(outVectors, other.numCol);
+		out = new Matrix(outVectors, numCol);
 		
 		return out;
 		
