@@ -74,22 +74,43 @@ public class Driver {
 		System.out.println (v);
 		System.out.println (Vector.span (list, 4));
 		/*------------ END OF SAMPLE 4 ------------*/
-		/*--------------- SAMPLE 05 ---------------*/
+
+		/*****MP2*****/
+
+		/*--------------- SAMPLE 05 ---------------*
+		
+		arr = new Vector[3];
+		arr[0] = new Vector (new double[] {1, 6, 10}, 3);
+		arr[1] = new Vector (new double[] {-4, 7, 9}, 3);
+		arr[2] = new Vector (new double[] {5, -8,-2}, 3);
+
+		List<Vector> list = new ArrayList<> ();
+		list.add (arr[0]);
+		list.add (arr[1]);
+		list.add (arr[2]);
+
+		Matrix trix = new Matrix(list, 3);
+
+		//determinant should be 250
+		
+		System.out.println (trix.det());
+		/*------------ END OF SAMPLE 5 ------------*/
+		/*--------------- SAMPLE 06 ---------------*/
 		
 		arr = new Vector[2];
-		arr[0] = new Vector (new double[] {1, 2}, 2);
-		arr[1] = new Vector (new double[] {0, 1}, 2);
-		
+		arr[0] = new Vector (new double[] {1, 3}, 2);
+		arr[1] = new Vector (new double[] {3, 9}, 2);
+
 		List<Vector> list = new ArrayList<> ();
 		list.add (arr[0]);
 		list.add (arr[1]);
 
 		Matrix trix = new Matrix(list, 2);
 
-		//
+		//determinant should be 250
 		
-		System.out.println (trix);
-		/*------------ END OF SAMPLE 5 ------------*/
+		System.out.println (trix.det());
+		/*------------ END OF SAMPLE 6 ------------*/
 	}
 	
 }

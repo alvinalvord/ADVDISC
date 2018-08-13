@@ -85,9 +85,14 @@ public class Matrix {
 	//different sizes but valid multiplied matrices (currently, the dimension refers to same sizes for all, so n x n and n x n) --> (not sure if this falls under size mismatch as well)
 
 	public double det() {
-		double determinant = 0;
-		//gauss-jordan
-		return determinant;
+		double determinant = Gauss_Jordan();
+		List<Vector> list = new ArrayList<>();
+		for (int i = 0; i < numCol; i++)
+			list.add(vectors[i]);
+
+		if(this.vectors[0].span(list, numCol) < this.numCol)
+			return 0;
+		else return 1/determinant;
 	} //m.det() --> determinant
 
 	public Matrix inverse() {
@@ -98,6 +103,95 @@ public class Matrix {
 	} //m.inverse() --> inverse
 
 	//return null if not invertible (no inverse)
+
+	//copy-pasted from Vector class, then modified for Matrix
+	public double Gauss_Jordan() {
+		if (this.numCol != this.numRow) return 0;
+
+		double constant = 1; //because 1st step is multiply...?
+		int dimension = this.numCol;
+		
+		Vector[] arr = new Vector[dimension];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = new Vector (this.vectors.length);
+			for (int j = 0; j < this.vectors.length; j++) {
+				arr[i].setElement(j, this.vectors[j].getElement(i));
+			}
+		}
+		
+		int j = 0;
+		List<Integer> indices = new ArrayList <> ();
+		for (int i = 0; i < arr.length; i++) {
+			
+			boolean flag = false;
+			do {
+				if (j >= arr[i].getDimension()) break;
+				
+				for (int k = i; k < arr.length; k++) {
+					if (arr[k].getElement(j) != 0) {
+						flag = true; break;
+					}
+				}
+				
+				if (!flag) j++;
+			} while (!flag);
+			
+			if (!flag) break;
+			
+			indices.add (j);
+			
+			int x = i, y = arr.length - 1;
+			
+			// sort array -> all zeroes below
+			while (x < y) {
+				while (arr[y].getElement(j) == 0) y--;
+				if (arr[x].getElement(j) == 0) {
+					Vector temp = arr[x];
+					arr[x] = arr[y];
+					arr[y] = temp;
+					
+					constant *= -1;
+					y--;
+				}
+				x++;
+			}
+			
+			// scale for row echelon form
+			constant *= 1.0 / arr[i].getElement(j);
+			arr[i] = arr[i].scale (1.0 / arr[i].getElement(j));
+			for (int k = i + 1; k < arr.length; k++) {
+				if (arr[k].getElement(j) != 0) {
+					constant *= (-1.0 / arr[k].getElement(j));
+					arr[k] = arr[k].scale (- 1.0 / arr[k].getElement(j));
+					
+					//no modifying of x for adding
+					arr[k] = arr[k].add (arr[i]);
+				}
+			}
+			j++;
+		}
+		
+		// the climb: paakyat; not needed here...
+		/*for (int i = 1; i < indices.size (); i++) {
+			j = indices.get (i);
+			
+			for (int k = i - 1; k >= 0; k--) {
+				Vector temp = new Vector (arr[i].elements, arr[i].dimension);
+				double tempconst = constants.elements[i];
+				
+				tempconst *= (-arr[k].elements[j] / arr[i].elements[j]);
+				temp = temp.scale (-arr[k].elements[j] / arr[i].elements[j]);
+				
+				constants.elements[k] += tempconst;
+				arr[k] = arr[k].add (temp);
+			}
+			
+		}*/
+		
+		//this.vectors[0].vectorSpan = indices.size ();
+
+		return constant;
+	}
 
 	/**
 	* returns the comma separated values of the vector enclosed
