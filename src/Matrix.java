@@ -61,30 +61,31 @@ public class Matrix {
 	}
 
 	public Matrix times (Matrix other) {
-		if(this.numRow != other.numCol) {
+		if(this.numRow != other.numCol)
 			return null;
-		}
-		else {
-			int dimension = this.numCol; 
-			Matrix product = new Matrix (dimension);
-			double element = 0;
-			for (int z = 0; z < dimension; z++) {
-				for (int y = 0; y < dimension; y++) {
-					element = 0;
-					for (int x = 0; x < dimension; x++) {
-						element += this.vectors[x].getElement(z) * other.vectors[y].getElement(x);
-					}
-					product.vectors[y].setElement(z, element);
+
+		int dimension = this.numCol; 
+		Matrix product = new Matrix (dimension);
+		double element = 0;
+		for (int z = 0; z < dimension; z++) {
+			for (int y = 0; y < dimension; y++) {
+				element = 0;
+				for (int x = 0; x < dimension; x++) {
+					element += this.vectors[x].getElement(z) * other.vectors[y].getElement(x);
 				}
+				product.vectors[y].setElement(z, element);
 			}
-			return product;
 		}
+		return product;
 	} //this.times(other) --> product
 
 	//stuff not considered:
 	//different sizes but valid multiplied matrices (currently, the dimension refers to same sizes for all, so n x n and n x n) --> (not sure if this falls under size mismatch as well)
 
 	public double det() {
+		if(this.numRow != other.numCol)
+			return null;
+
 		double determinant = Gauss_Jordan();
 		List<Vector> list = new ArrayList<>();
 		for (int i = 0; i < numCol; i++)
@@ -104,7 +105,10 @@ public class Matrix {
 
 	//return null if not invertible (no inverse)
 
-	//copy-pasted from Vector class, then modified for Matrix
+	/**
+	* Performs half of Gauss-Jordan Elimination and returns the constant
+	* @return null if dimension and constant vector dimension does not match; otherwise, returns the constants values after performing Gauss-Jordan Elimination
+	*/
 	public double Gauss_Jordan() {
 		if (this.numCol != this.numRow) return 0;
 
@@ -171,25 +175,6 @@ public class Matrix {
 			j++;
 		}
 		
-		// the climb: paakyat; not needed here...
-		/*for (int i = 1; i < indices.size (); i++) {
-			j = indices.get (i);
-			
-			for (int k = i - 1; k >= 0; k--) {
-				Vector temp = new Vector (arr[i].elements, arr[i].dimension);
-				double tempconst = constants.elements[i];
-				
-				tempconst *= (-arr[k].elements[j] / arr[i].elements[j]);
-				temp = temp.scale (-arr[k].elements[j] / arr[i].elements[j]);
-				
-				constants.elements[k] += tempconst;
-				arr[k] = arr[k].add (temp);
-			}
-			
-		}*/
-		
-		//this.vectors[0].vectorSpan = indices.size ();
-
 		return constant;
 	}
 
