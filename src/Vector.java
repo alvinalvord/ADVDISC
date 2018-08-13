@@ -40,7 +40,7 @@ public class Vector {
 	* Returns the dimension of the vector.
 	* @param dimension of the vector
 	*/
-	public double getDimension() {
+	public int getDimension() {
 		return dimension;
 	}
 
@@ -50,6 +50,13 @@ public class Vector {
 	*/
 	public double getElement(int index) {
 		return elements[index];
+	}
+
+	/**
+	* Returns a double array containing the elements of the Vector.
+	*/
+	public double[] getElements() {
+		return elements;
 	}
 
 	/**
