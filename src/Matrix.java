@@ -14,71 +14,99 @@ public class Matrix {
 	private final int numRow;
 	private final int numCol;
 
-	/*
+	/**
 		Default constructor to create an identity matrix of a given dimension
 	*/
 	public Matrix(int dimension){
+		
 		this.vectors = new Vector[dimension];
 		
 		for(int i = 0; i < dimension; i++){
 			double[] temp = new double[dimension];
 			temp[i] = 1;
-			
 			vectors[i] = new Vector(temp, dimension);
 		}
-
-		numRow = vectors.length;
-		numCol = dimension;
+		
+		numRow = numCol = dimension;
 	}
 
-	/*
+	/**
 		Default constructor converting a list of Vectors into a matrix
 		@param dimension - length of each Vector in the list
 	*/
 	public Matrix (List<Vector> list, int dimension){
+		
 		List<Vector> temp = new ArrayList<>();
 		
-		for(int i = 0; i < dimension; i++){
-			double[] elements = new double[list.size()];
-			Vector tempVector = list.get(i);
+		System.out.println("Entered vectors: ");
 		
-			for(int j = 0; j < list.size(); j++){
+		for(int i = 0; i < list.size(); i++){
+			double[] elements = new double[dimension];
+			
+			Vector tempVector = list.get(i);
+			
+			System.out.println(tempVector.toString());
+			
+			for(int j = 0; j < dimension; j++)
 				elements[j] = tempVector.getElement(j);
-			}
+			
 			temp.add(new Vector(elements, dimension));
+			
 		}
 		
 		vectors = new Vector[list.size()];
 		
-		for(int i = 0; i < temp.size(); i++){
+		for(int i = 0; i < temp.size(); i++)
 			vectors[i] = temp.get(i);
-		}
-
-		this.vectors = vectors;
 		
 		numRow = vectors.length;
 		numCol = dimension;
 	}
-
-	public Matrix times (Matrix other) {
-		if(this.numRow != other.numCol)
+	
+	public Matrix times(Matrix other){
+		List<Vector> outVectors = new ArrayList<Vector>();
+		Matrix out = null;
+		
+		// check if multiplication is legal
+		// should be n x m * m x p
+		if(this.numCol != other.getNumRow())
 			return null;
-
-		int dimension = this.numCol; 
-		Matrix product = new Matrix (dimension);
-		double element = 0;
-		for (int z = 0; z < dimension; z++) {
-			for (int y = 0; y < dimension; y++) {
-				element = 0;
-				for (int x = 0; x < dimension; x++) {
-					element += this.vectors[x].getElement(z) * other.vectors[y].getElement(x);
+		
+		// initialize list of vectors
+		for(int i = 0; i < other.numCol; i++){
+			outVectors.add(new Vector(numRow));
+		}
+		
+		for(int x = 0; x < outVectors.size(); x++){
+			for(int i = 0; i < this.numRow; i++){
+				
+				double result = 0;
+				
+				for(int j = 0; j < this.numCol; j++){
+					System.out.println("[" + i + "] [" + j + "]");
+					
+					for(int k = 0; k < other.numCol; k++){
+						
+						System.out.println(vectors[i].getElement(j) + "*" + other.getVectors()[j].getElement(k));
+						
+						result += vectors[i].getElement(j) * other.getVectors()[j].getElement(k);
+					}
+					System.out.println(result);
 				}
-				product.vectors[y].setElement(z, element);
+				System.out.println();
+				
+				// not working
+				outVectors.get(x)
+					.setElement(i, result);
 			}
 		}
-		return product;
-	} //this.times(other) --> product
-
+		
+		out = new Matrix(outVectors, numCol);
+		
+		return out;
+		
+	}
+	
 	//stuff not considered:
 	//different sizes but valid multiplied matrices (currently, the dimension refers to same sizes for all, so n x n and n x n) --> (not sure if this falls under size mismatch as well)
 
@@ -176,6 +204,30 @@ public class Matrix {
 		}
 		
 		return constant;
+	}
+	
+		public int getNumRow(){
+		return numRow;
+	}
+	
+	public int getNumCol(){
+		return numCol;
+	}
+	
+	public Vector[] getVectors(){
+		return vectors;
+	}
+	
+	public void printMatrix(){
+		System.out.println("Representation: ");
+		
+		for(int i = 0; i < vectors.length; i++){
+			System.out.println(vectors[i].toString());
+		}
+		
+		System.out.println("Rows:" + numRow);
+		System.out.println("Cols:" + numCol);
+		System.out.println();
 	}
 
 	/**
