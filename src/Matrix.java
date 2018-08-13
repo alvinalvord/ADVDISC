@@ -14,7 +14,7 @@ public class Matrix {
 	private final int numRow;
 	private final int numCol;
 
-	/*
+	/**
 		Default constructor to create an identity matrix of a given dimension
 	*/
 	public Matrix(int dimension){
@@ -24,43 +24,134 @@ public class Matrix {
 		for(int i = 0; i < dimension; i++){
 			double[] temp = new double[dimension];
 			temp[i] = 1;
-			
 			vectors[i] = new Vector(temp, dimension);
 		}
 		
-		numRow = vectors.length;
-		numCol = dimension;
+		numRow = numCol = dimension;
 	}
 
-	/*
+	/**
 		Default constructor converting a list of Vectors into a matrix
 		@param dimension - length of each Vector in the list
 	*/
 	public Matrix (List<Vector> list, int dimension){
+		
 		List<Vector> temp = new ArrayList<>();
 		
-		for(int i = 0; i < dimension; i++){
-			double[] elements = new double[list.size()];
-			Vector tempVector = list.get(i);
+		System.out.println("Entered vectors: ");
 		
-			for(int j = 0; j < list.size(); j++){
+		for(int i = 0; i < list.size(); i++){
+			double[] elements = new double[dimension];
+			
+			Vector tempVector = list.get(i);
+			
+			System.out.println(tempVector.toString());
+			
+			for(int j = 0; j < dimension; j++)
 				elements[j] = tempVector.getElement(j);
-			}
+			
 			temp.add(new Vector(elements, dimension));
+			
 		}
 		
 		vectors = new Vector[list.size()];
 		
-		for(int i = 0; i < temp.size(); i++){
+		for(int i = 0; i < temp.size(); i++)
 			vectors[i] = temp.get(i);
-		}
-
-		this.vectors = vectors;
 		
 		numRow = vectors.length;
 		numCol = dimension;
 	}
-
+	
+	public Matrix times(Matrix other){
+		List<Vector> outVectors = new ArrayList<Vector>();
+		Matrix out = null;
+		
+		// check if multiplication is legal
+		// should be n x m * m x p
+		if(this.numRow != other.getNumCol())
+			return null;
+		
+		// initialize list of vectors
+		for(int i = 0; i < other.numCol; i++){
+			outVectors.add(new Vector(numRow));
+		}
+		
+//		for(int i = 0; i < this.numRow; i++){
+//			
+//			double result = 0;
+//			
+//			for(int j = 0; j < this.numCol; j++){
+//				System.out.println("[" + i + "] [" + j + "]");
+//				
+//				for(int k = 0; k < other.numRow; k++){
+//					
+//					System.out.println(vectors[i].getElement(j) + "*" + other.getVectors()[j].getElement(k));
+//					
+//					result += vectors[i].getElement(j) * other.getVectors()[j].getElement(k);
+//				}
+//				System.out.println(result);
+//			}
+//			System.out.println();
+//			
+//			outVectors.get(i).setElement(i, result);
+//		}
+		
+		for(int i = 0; i < other.numRow; i++){
+			
+			double result = 0;
+			
+			for(int j = 0; j < other.numCol; j++){
+				System.out.println("[" + i + "] [" + j + "]");
+				
+				for(int k = 0; k < this.numRow; k++){
+					
+					System.out.println(vectors[j].getElement(k) * other.getVectors()[i].getElement(j));
+					
+					result += vectors[j].getElement(k) * other.getVectors()[i].getElement(j);
+					
+					
+				}
+				System.out.println(result);
+			}
+			System.out.println();
+			
+			outVectors.get(i).setElement(i, result);
+		}
+		
+		out = new Matrix(outVectors, other.numCol);
+		
+		return out;
+		
+	}
+	
+	public int getNumRow(){
+		return numRow;
+	}
+	
+	public int getNumCol(){
+		return numCol;
+	}
+	
+	public Vector[] getVectors(){
+		return vectors;
+	}
+	
+	public void printMatrix(){
+		System.out.println("Representation: ");
+		
+		for(int i = 0; i < vectors.length; i++){
+			System.out.println(vectors[i].toString());
+		}
+		
+		System.out.println("Rows:" + numRow);
+		System.out.println("Cols:" + numCol);
+		System.out.println();
+	}
+	
+	
+	
+	/*
 	public static Matrix times (Matrix other) {
 		int dimension = other.dimension; 
 		Matrix product = new Matrix (dimension);
@@ -95,12 +186,15 @@ public class Matrix {
 		//return inversed;
 	} //m.inverse() --> inverse
 	*/
+	
 
 	/**
 	* returns the comma separated values of the vector enclosed
 	*		by square brackets []
 	* @return string representation of this vector
 	*/
+	
+	/*
 	public String toString () {
 		StringBuilder sb = new StringBuilder ();
 		sb.append ("[");
@@ -113,5 +207,5 @@ public class Matrix {
 		
 		return sb.toString ();
 	}
-
+	*/
 }
