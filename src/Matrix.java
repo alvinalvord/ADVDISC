@@ -61,24 +61,28 @@ public class Matrix {
 	}
 
 	public Matrix times (Matrix other) {
-		int dimension = this.numCol; 
-		Matrix product = new Matrix (dimension);
-		double element = 0;
-		for (int z = 0; z < dimension; z++) {
-			for (int y = 0; y < dimension; y++) {
-				element = 0;
-				for (int x = 0; x < dimension; x++) {
-					element += this.vectors[x].getElement(z) * other.vectors[y].getElement(x);
-				}
-				product.vectors[y].setElement(z, element);
-			}
+		if(this.numRow != other.numCol) {
+			return null;
 		}
-		return product;
+		else {
+			int dimension = this.numCol; 
+			Matrix product = new Matrix (dimension);
+			double element = 0;
+			for (int z = 0; z < dimension; z++) {
+				for (int y = 0; y < dimension; y++) {
+					element = 0;
+					for (int x = 0; x < dimension; x++) {
+						element += this.vectors[x].getElement(z) * other.vectors[y].getElement(x);
+					}
+					product.vectors[y].setElement(z, element);
+				}
+			}
+			return product;
+		}
 	} //this.times(other) --> product
 
 	//stuff not considered:
-	//size mismatch not yet handled
-	//different sizes but valid multiplied matrices (currently, the dimension refers to same sizes for all, so n x n and n x n)
+	//different sizes but valid multiplied matrices (currently, the dimension refers to same sizes for all, so n x n and n x n) --> (not sure if this falls under size mismatch as well)
 
 	public double det() {
 		double determinant = 0;
