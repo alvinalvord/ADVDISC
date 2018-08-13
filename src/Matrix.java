@@ -60,36 +60,34 @@ public class Matrix {
 		numCol = dimension;
 	}
 
-	public static Matrix times (Matrix other) {
-		int dimension = numCol; 
+	public Matrix times (Matrix other) {
+		int dimension = this.numCol; 
 		Matrix product = new Matrix (dimension);
-		Matrix a = this; //BUG: how do you reference self?
-		Matrix b = other;
 		double element = 0;
 		for (int z = 0; z < dimension; z++) {
 			for (int y = 0; y < dimension; y++) {
 				element = 0;
 				for (int x = 0; x < dimension; x++) {
-					element += a.vectors[x].getElement(z) * b.vectors[y].getElement(x);
+					element += this.vectors[x].getElement(z) * other.vectors[y].getElement(x);
 				}
 				product.vectors[y].setElement(z, element);
 			}
 		}
 		return product;
-	} //a.times(b) --> product
+	} //this.times(other) --> product
 
 	//stuff not considered:
 	//size mismatch not yet handled
 	//different sizes but valid multiplied matrices (currently, the dimension refers to same sizes for all, so n x n and n x n)
 
-	public static double det() {
-		double determinant;
+	public double det() {
+		double determinant = 0;
 		//gauss-jordan
 		return determinant;
 	} //m.det() --> determinant
 
-	public static Matrix inverse() {
-		Matrix inversed = new Matrix(numCol);
+	public Matrix inverse() {
+		Matrix inversed = new Matrix(this.numCol);
 		//gauss-jordan
 		//perform(blackMagic);
 		return inversed;
