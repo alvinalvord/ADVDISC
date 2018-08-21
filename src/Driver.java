@@ -132,7 +132,21 @@ public class Driver {
 		System.out.println ("\nTranspose: ");
 		System.out.println (A.transpose ());
 		/*------------ END OF SAMPLE 7 ------------*/
+		/*--------------- SAMPLE 08 ---------------*/
+		arr = new Vector[2];
+		arr[0] = new Vector (new double[] {1, 3}, 2);
+		arr[1] = new Vector (new double[] {3, 9}, 2);
+
+		List<Vector> list = new ArrayList<> ();
+		list.add (arr[0]);
+		list.add (arr[1]);
+
+		Matrix trix = new Matrix(list, 2);
+
+		//determinant should be 0
 		
+		System.out.println (trix.det());
+		/*------------ END OF SAMPLE 8 ------------*/
 	}
 	
 }
