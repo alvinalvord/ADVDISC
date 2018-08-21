@@ -55,7 +55,7 @@ public class Driver {
 		System.out.println (v);
 		System.out.println (Vector.span (list, 3));
 		/*------------ END OF SAMPLE 3 ------------*/
-		/*--------------- SAMPLE 04 ---------------*/
+		/*--------------- SAMPLE 04 ---------------*
 		
 		arr = new Vector[4];
 		arr[0] = new Vector (new double[] {1, 0, -4, 2}, 4);
@@ -69,11 +69,45 @@ public class Driver {
 		list.add (arr[2]);
 		list.add (arr[3]);
 		
-		Vector v = Vector.Gauss_Jordan (list, 4, new Vector (new double[] {1, 5, 2, 3}, 4));
+		Matrix m = new Matrix (list, 4);
+		System.out.print (m);
 		
-		System.out.println (v);
-		System.out.println (Vector.span (list, 4));
+		// Vector v = Vector.Gauss_Jordan (list, 4, new Vector (new double[] {1, 5, 2, 3}, 4));
+		
+		// System.out.println (v);
+		// System.out.println (Vector.span (list, 4));
 		/*------------ END OF SAMPLE 4 ------------*/
+		
+		/*--------------- SAMPLE 05 ---------------*
+		arr = new Vector[4];
+		arr[0] = new Vector (new double[] {1, 0, -4}, 3);
+		arr[1] = new Vector (new double[] {-1, 1, 4}, 3);
+		arr[2] = new Vector (new double[] {3, 7, 1}, 3);
+		arr[3] = new Vector (new double[] {1, 1, -2}, 3);
+		
+		List<Vector> list = new ArrayList<> ();
+		list.add (arr[0]);
+		list.add (arr[1]);
+		list.add (arr[2]);
+		list.add (arr[3]);
+		
+		Matrix m = new Matrix (list, 3);
+		System.out.print (m);
+		/*------------ END OF SAMPLE 5 ------------*/
+		
+		/*--------------- SAMPLE 06 ---------------*/
+		Matrix A = new Matrix (4);
+		
+		arr = new Vector[3];
+		arr[0] = new Vector (new double[] {1, 2, 3, 4}, 4);
+		arr[1] = new Vector (new double[] {4, 5, 6, 7}, 4);
+		arr[2] = new Vector (new double[] {9, 8, 7, 6}, 4);
+		List<Vector> list = Arrays.asList (arr);
+		Matrix B = new Matrix (list, 4);
+		
+		System.out.print (A.times (B));
+		
+		/*------------ END OF SAMPLE 6 ------------*/
 	}
 	
 }

@@ -171,6 +171,14 @@ public class Vector {
 		return constants;
 	}
 	
+	public double getElement (int index) {
+		return elements[index];
+	}
+	
+	public void setElement (int index, double value) {
+		elements[index] = value;
+	}
+	
 	/**
 	* returns the comma separated values of the vector enclosed
 	*		by square brackets []
