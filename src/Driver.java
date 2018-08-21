@@ -108,7 +108,7 @@ public class Driver {
 		System.out.print (A.times (B));
 		
 		/*------------ END OF SAMPLE 6 ------------*/
-		/*--------------- SAMPLE 07 ---------------*/
+		/*--------------- SAMPLE 07 ---------------*
 		List<Vector> list = new ArrayList <Vector> ();
 		
 		list.add (new Vector (new double[]{1,2,3}, 3));
@@ -147,6 +147,79 @@ public class Driver {
 		
 		System.out.println (trix.det());
 		/*------------ END OF SAMPLE 8 ------------*/
+		/*--------------- SAMPLE 09 ---------------*
+		List<Vector> list = new ArrayList <Vector> ();
+		
+		list.add (new Vector (new double[]{1,2,4}, 3));
+		list.add (new Vector (new double[]{2,4,8}, 3));
+		list.add (new Vector (new double[]{4,8,16}, 3));
+		
+		Matrix A = new Matrix (list, 3);
+		
+		System.out.println ("input: ");
+		System.out.println (A);
+		
+		System.out.println ("\nGJE: ");
+		System.out.println (Vector.Gauss_Jordan (list, 3, new Vector (new double[]{1,1,1}, 3)));
+		
+		System.out.println ("\nDeterminant: ");
+		System.out.println (A.det ());
+		
+		System.out.println ("\nInverse: ");
+		System.out.println (A.inverse ());
+		
+		System.out.println ("\nTranspose: ");
+		System.out.println (A.transpose ());
+		/*------------ END OF SAMPLE 9 ------------*/
+		/*--------------- SAMPLE 10 ---------------*
+		List<Vector> list = new ArrayList <Vector> ();
+		
+		list.add (new Vector (new double[]{1,2,5}, 3));
+		list.add (new Vector (new double[]{5,2,3}, 3));
+		list.add (new Vector (new double[]{6,5,3}, 3));
+		
+		Matrix A = new Matrix (list, 3);
+		
+		System.out.println ("input: ");
+		System.out.println (A);
+		
+		System.out.println ("\nGJE: ");
+		System.out.println (Vector.Gauss_Jordan (list, 3, new Vector (new double[]{1,1,1}, 3)));
+		
+		System.out.println ("\nDeterminant: ");
+		System.out.println (A.det ());
+		
+		System.out.println ("\nInverse: ");
+		System.out.println (A.inverse ());
+		
+		System.out.println ("\nTranspose: ");
+		System.out.println (A.transpose ());
+		/*------------ END OF SAMPLE 10 ------------*/
+		/*--------------- SAMPLE 11 ---------------*/
+		List<Vector> list = new ArrayList <Vector> ();
+		
+		list.add (new Vector (new double[]{5,0,0}, 3));
+		list.add (new Vector (new double[]{6,6,0}, 3));
+		list.add (new Vector (new double[]{2,0,2}, 3));
+		
+		Matrix A = new Matrix (list, 3);
+		
+		System.out.println ("input: ");
+		System.out.println (A);
+		
+		System.out.println ("\nGJE: ");
+		System.out.println (Vector.Gauss_Jordan (list, 3, new Vector (new double[]{1,1,1}, 3)));
+		
+		System.out.println ("\nDeterminant: ");
+		System.out.println (A.det ());
+		
+		System.out.println ("\nInverse: ");
+		System.out.println (A.inverse ());
+		
+		System.out.println ("\nTranspose: ");
+		System.out.println (A.transpose ());
+		/*------------ END OF SAMPLE 11 ------------*/
+
 	}
 	
 }

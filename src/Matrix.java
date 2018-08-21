@@ -95,7 +95,7 @@ public class Matrix {
 		
 		if (indices.size () != rows) return new Double (0);
 		
-		return new Double (determinant.get ());
+		return new Double (1.0 / determinant.get ());
 	}
 	
 	public Matrix inverse () {
