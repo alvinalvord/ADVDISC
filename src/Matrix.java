@@ -95,11 +95,13 @@ public class Matrix {
 		
 		if (indices.size () != rows) return new Double (0);
 		
-		return new Double (determinant.get ());
+		return new Double (1.0 / determinant.get ());
 	}
 	
 	public Matrix inverse () {
-		if (rows != columns) return null;
+		Double det = det ();
+		
+		if (det == null || det == 0) return null;
 		
 		Matrix matrix = new Matrix (this);
 		Matrix inverse = new Matrix (rows);
