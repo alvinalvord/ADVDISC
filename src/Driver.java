@@ -108,7 +108,7 @@ public class Driver {
 		System.out.print (A.times (B));
 		
 		/*------------ END OF SAMPLE 6 ------------*/
-		/*--------------- SAMPLE 07 ---------------*
+		/*--------------- SAMPLE 07 ---------------*/
 		List<Vector> list = new ArrayList <Vector> ();
 		
 		list.add (new Vector (new double[]{1,2,3}, 3));
@@ -132,7 +132,7 @@ public class Driver {
 		System.out.println ("\nTranspose: ");
 		System.out.println (A.transpose ());
 		/*------------ END OF SAMPLE 7 ------------*/
-		/*--------------- SAMPLE 08 ---------------*/
+		/*--------------- SAMPLE 08 ---------------*
 		arr = new Vector[2];
 		arr[0] = new Vector (new double[] {1, 3}, 2);
 		arr[1] = new Vector (new double[] {3, 9}, 2);

@@ -99,7 +99,9 @@ public class Matrix {
 	}
 	
 	public Matrix inverse () {
-		if (rows != columns) return null;
+		Double det = det ();
+		
+		if (det == null || det == 0) return null;
 		
 		Matrix matrix = new Matrix (this);
 		Matrix inverse = new Matrix (rows);
