@@ -132,7 +132,7 @@ public class Driver {
 		System.out.println ("\nTranspose: ");
 		System.out.println (A.transpose ());
 		/*------------ END OF SAMPLE 7 ------------*/
-		/*--------------- SAMPLE 08 ---------------*/
+		/*--------------- SAMPLE 08 ---------------*
 		arr = new Vector[2];
 		arr[0] = new Vector (new double[] {1, 3}, 2);
 		arr[1] = new Vector (new double[] {3, 9}, 2);
@@ -147,6 +147,55 @@ public class Driver {
 		
 		System.out.println (trix.det());
 		/*------------ END OF SAMPLE 8 ------------*/
+		/*--------------- SAMPLE 09 ---------------*/
+		List<Vector> list = new ArrayList <Vector> ();
+		
+		list.add (new Vector (new double[]{1.5,2,4}, 3));
+		list.add (new Vector (new double[]{3,4,8}, 3));
+		list.add (new Vector (new double[]{6,1.9,9}, 3));
+		
+		Matrix A = new Matrix (list, 3);
+		
+		List<Vector> list2 = new ArrayList <Vector> ();
+		
+		list2.add (new Vector (new double[]{8,5,2}, 3));
+		list2.add (new Vector (new double[]{7.8,5,1}, 3));
+		list2.add (new Vector (new double[]{7,2,3}, 3));
+		
+		Matrix B = new Matrix (list2, 3);
+		
+		System.out.println ("input: ");
+		System.out.println (A);
+		
+		System.out.println ("\nGJE: ");
+		System.out.println (Vector.Gauss_Jordan (list, 3, new Vector (new double[]{1,2,2}, 3)));
+		
+		System.out.println ("\nDeterminant: ");
+		System.out.println (A.det ());
+		
+		System.out.println ("\nInverse: ");
+		System.out.println (A.inverse ());
+		
+		System.out.println ("\nTranspose: ");
+		System.out.println (A.transpose ());
+		
+		System.out.println ("input: ");
+		System.out.println (B);
+		
+		System.out.println ("\nGJE: ");
+		System.out.println (Vector.Gauss_Jordan (list2, 3, new Vector (new double[]{1,2,2}, 3)));
+		
+		System.out.println ("\nDeterminant: ");
+		System.out.println (B.det ());
+		
+		System.out.println ("\nInverse: ");
+		System.out.println (B.inverse ());
+		
+		System.out.println ("\nTranspose: ");
+		System.out.println (B.transpose ());
+		
+		System.out.println(A.times(B));
+		/*------------ END OF SAMPLE 9 ------------*/
 	}
 	
 }
