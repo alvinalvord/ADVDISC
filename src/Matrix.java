@@ -41,6 +41,19 @@ public class Matrix {
 		}
 	}
 	
+	public Matrix (Matrix matrix) {
+		vectors = new Vector[matrix.rows];
+		rows = matrix.rows;
+		columns = matrix.columns;
+		
+		for (int i = 0; i < rows; i++) {
+			vectors[i] = new Vector (columns);
+			for (int j = 0; j < columns; j++) {
+				vectors[i].setElement (j, matrix.vectors[i].getElement (j));
+			}
+		}
+	}
+	
 	public Matrix times (Matrix other) {
 		if (this.columns != other.rows) return null;
 		
@@ -69,8 +82,156 @@ public class Matrix {
 		return outputMatrix;
 	}
 	
-	public double det () {
+	public Double det () {
+		if (rows != columns) return null;
 		
+		Matrix matrix = new Matrix (this);
+		Matrix inverse = new Matrix (rows);
+		Vector constants = new Vector (rows);
+		List<Integer> indices = new ArrayList<Integer> ();
+		MutableDouble determinant = new MutableDouble (1.0);
+		
+		Matrix.toRowEchelon (matrix, inverse, constants, indices, determinant);
+		
+		if (indices.size () != rows) return new Double (0);
+		
+		return new Double (determinant.get ());
+	}
+	
+	public Matrix inverse () {
+		if (rows != columns) return null;
+		
+		Matrix matrix = new Matrix (this);
+		Matrix inverse = new Matrix (rows);
+		Vector constants = new Vector (rows);
+		List<Integer> indices = new ArrayList<Integer> ();
+		MutableDouble determinant = new MutableDouble (1.0);
+		
+		Matrix.toRowEchelon (matrix, inverse, constants, indices, determinant);
+		
+		Matrix.toReducedRowEchelon (matrix, inverse, constants, indices);
+		
+		return inverse;
+	}
+	
+	public Matrix transpose () {
+		List<Vector> list = new ArrayList<> ();
+		
+		for (int i = 0; i < vectors.length; i++) {
+			list.add (vectors[i]);
+		}
+		
+		return new Matrix (list, columns);
+	}
+	
+	public Vector[] getVectors () {
+		return vectors;
+	}
+	
+	public static void toRowEchelon (Matrix matrix, Matrix inverse, Vector constants, List<Integer> indices, MutableDouble determinant) {
+		
+		int j = 0;
+		for (int i = 0; i < matrix.rows; i++) {
+			
+			// search for non-zero in column
+			boolean flag = false;
+			
+			do {
+				if (j >= matrix.columns) break;
+				
+				for (int k = i; k < matrix.rows; k++) {
+					if (matrix.vectors[k].getElement (j) != 0) {
+						flag = true;
+						break;
+					}
+				}
+				
+				if (!flag) j++;
+			} while (!flag);
+			
+			if (j < matrix.columns)
+				indices.add (j);
+			else
+				break;
+			
+			// sort array
+			int x = i, y = matrix.rows - 1;
+			
+			while (x < y) {
+				while (matrix.vectors[y].getElement (j) == 0) y--;
+				
+				if (matrix.vectors[x].getElement (j) == 0) {
+					// swap matrix rows
+					Vector temp = matrix.vectors[x];
+					matrix.vectors[x] = matrix.vectors[y];
+					matrix.vectors[y] = temp;
+					
+					// swap inverse rows
+					temp = inverse.vectors[x];
+					inverse.vectors[x] = inverse.vectors[y];
+					inverse.vectors[y] = temp;
+					
+					// swap constants
+					double tempconst = constants.getElement (x);
+					constants.setElement (x, constants.getElement (y));
+					constants.setElement (y, tempconst);
+					
+					// negate determinant
+					determinant.set (-determinant.get ());
+					
+					y--;
+				}
+				x++;
+			}
+			
+			// scale for row echelon
+			double scalar = 1.0 / matrix.vectors[i].getElement (j);
+			constants.setElement (i, constants.getElement (i) * (scalar));
+			matrix.vectors[i] = matrix.vectors[i].scale (scalar);
+			inverse.vectors[i] = inverse.vectors[i].scale (scalar);
+			determinant.set (determinant.get () * scalar);
+			
+			// negative scale for rows below
+			for (int k = i + 1; k < matrix.rows; k++) {
+				if (matrix.vectors[k].getElement (j) != 0) {
+					scalar = -1.0 / matrix.vectors[k].getElement (j);
+					
+					constants.setElement (k, constants.getElement (k) * scalar);
+					matrix.vectors[k] = matrix.vectors[k].scale (scalar);
+					inverse.vectors[k] = inverse.vectors[k].scale (scalar);
+					determinant.set (determinant.get () * scalar);
+					
+					// add rows
+					constants.setElement (k, constants.getElement (k) + constants.getElement (i));
+					matrix.vectors[k] = matrix.vectors[k].add (matrix.vectors[i]);
+					inverse.vectors[k] = inverse.vectors[k].add (inverse.vectors[i]);
+				}
+			}
+			j++;
+		}
+		
+	}
+	
+	public static void toReducedRowEchelon (Matrix matrix, Matrix inverse, Vector constants, List<Integer> indices) {
+		for (int i = 1; i < indices.size (); i++) {
+			int j = indices.get (i);
+			
+			for (int k = i - 1; k >= 0; k--) {
+				Vector mtemp = new Vector (matrix.vectors[i].getElements (), matrix.columns);
+				Vector itemp = new Vector (inverse.vectors[i].getElements (), inverse.columns);
+				double tempconst = constants.getElement (i);
+				
+				double scalar = -matrix.vectors[k].getElement (j) / matrix.vectors[i].getElement (j);
+				
+				tempconst *= scalar;
+				mtemp = mtemp.scale (scalar);
+				itemp = itemp.scale (scalar);
+				
+				constants.setElement (k, constants.getElement (k) + tempconst);
+				matrix.vectors[k] = matrix.vectors[k].add (mtemp);
+				inverse.vectors[k] = inverse.vectors[k].add (itemp);
+			}
+		}
 	}
 	
 	public String toString () {
@@ -81,6 +242,26 @@ public class Matrix {
 		}
 		
 		return sb.toString ();
+	}
+	
+	public static class MutableDouble {
+		private double value;
+		
+		public MutableDouble () {
+			this (0);
+		}
+		
+		public MutableDouble (double value) {
+			set (value);
+		}
+		
+		public void set (double value) {
+			this.value = value;
+		}
+		
+		public double get () {
+			return value;
+		}
 	}
 	
 }

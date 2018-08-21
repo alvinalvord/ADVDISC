@@ -12,7 +12,6 @@ public class Vector {
 	
 	private double[] elements;
 	private int dimension;
-	private int vectorSpan;
 	
 	/**
 	* Initializes a vector of size equal to dimensions where all elements are 0
@@ -75,8 +74,13 @@ public class Vector {
 	* @param dimension the size of each of the vectors
 	*/
 	public static int span (List<Vector> vectors, int dimension) {
-		return Gauss_Jordan (vectors, dimension, 
-			new Vector (dimension)).vectorSpan;
+		Matrix matrix = new Matrix (vectors, dimension);
+		Matrix inverse = new Matrix (dimension);
+		List<Integer> indices = new ArrayList <> ();
+		Matrix.MutableDouble determinant = new Matrix.MutableDouble (1.0);
+		
+		Matrix.toRowEchelon (matrix, inverse, new Vector (dimension), indices, determinant);
+		return indices.size ();
 	}
 	
 	/**
@@ -89,86 +93,37 @@ public class Vector {
 	public static Vector Gauss_Jordan (List<Vector> vectors, int dimension, Vector constants) {
 		if (dimension != constants.dimension) return null;
 		
-		Vector[] arr = new Vector[dimension];
-		for (int i = 0; i < arr.length; i++) {
-			arr[i] = new Vector (vectors.size ());
-			for (int j = 0; j < vectors.size (); j++) {
-				arr[i].elements[j] = vectors.get (j).elements[i];
-			}
-		}
+		Matrix matrix = new Matrix (vectors, dimension);
+		Matrix inverse = new Matrix (dimension);
+		List<Integer> indices = new ArrayList<>();
+		Matrix.MutableDouble determinant = new Matrix.MutableDouble (1.0);
 		
-		int j = 0;
-		List<Integer> indices = new ArrayList <> ();
-		for (int i = 0; i < arr.length; i++) {
-			
+		Matrix.toRowEchelon (matrix, inverse, constants, indices, determinant);
+		
+		Matrix.toReducedRowEchelon (matrix, inverse, constants, indices);
+		
+		for (int i = 0; i < matrix.getVectors ().length; i++) {
 			boolean flag = false;
-			do {
-				if (j >= arr[i].dimension) break;
-				
-				for (int k = i; k < arr.length; k++) {
-					if (arr[k].elements[j] != 0) {
-						flag = true; break;
-					}
-				}
-				
-				if (!flag) j++;
-			} while (!flag);
 			
-			if (!flag) break;
-			
-			indices.add (j);
-			
-			int x = i, y = arr.length - 1;
-			
-			// sort array -> all zeroes below
-			while (x < y) {
-				while (arr[y].elements[j] == 0) y--;
-				if (arr[x].elements[j] == 0) {
-					Vector temp = arr[x];
-					arr[x] = arr[y];
-					arr[y] = temp;
-					
-					double tempconst = constants.elements[x];
-					constants.elements[x] = constants.elements[y];
-					constants.elements[y] = tempconst;
-					y--;
-				}
-				x++;
-			}
-			
-			// scale for row echelon form
-			constants.elements[i] *= 1.0 / arr[i].elements[j];
-			arr[i] = arr[i].scale (1.0 / arr[i].elements[j]);
-			for (int k = i + 1; k < arr.length; k++) {
-				if (arr[k].elements[j] != 0) {
-					constants.elements[k] *= (-1.0 / arr[k].elements[j]);
-					arr[k] = arr[k].scale (- 1.0 / arr[k].elements[j]);
-					
-					constants.elements[k] += constants.elements[i];
-					arr[k] = arr[k].add (arr[i]);
+			for (int j = 0; j < matrix.getVectors ()[i].dimension; j++) {
+				if (matrix.getVectors ()[i].getElement (j) != 0) {
+					flag = true;
+					break;
 				}
 			}
-			j++;
+			
+			if (!flag) return null;
 		}
 		
-		for (int i = 1; i < indices.size (); i++) {
-			j = indices.get (i);
-			
-			for (int k = i - 1; k >= 0; k--) {
-				Vector temp = new Vector (arr[i].elements, arr[i].dimension);
-				double tempconst = constants.elements[i];
-				
-				tempconst *= (-arr[k].elements[j] / arr[i].elements[j]);
-				temp = temp.scale (-arr[k].elements[j] / arr[i].elements[j]);
-				
-				constants.elements[k] += tempconst;
-				arr[k] = arr[k].add (temp);
-			}
-			
-		}
-		
-		constants.vectorSpan = indices.size ();
 		return constants;
+	}
+	
+	public int getDimension () {
+		return dimension;
+	}
+	
+	public double[] getElements () {
+		return elements;
 	}
 	
 	public double getElement (int index) {

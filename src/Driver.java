@@ -95,7 +95,7 @@ public class Driver {
 		System.out.print (m);
 		/*------------ END OF SAMPLE 5 ------------*/
 		
-		/*--------------- SAMPLE 06 ---------------*/
+		/*--------------- SAMPLE 06 ---------------*
 		Matrix A = new Matrix (4);
 		
 		arr = new Vector[3];
@@ -108,6 +108,31 @@ public class Driver {
 		System.out.print (A.times (B));
 		
 		/*------------ END OF SAMPLE 6 ------------*/
+		/*--------------- SAMPLE 07 ---------------*
+		List<Vector> list = new ArrayList <Vector> ();
+		
+		list.add (new Vector (new double[]{1,2,3}, 3));
+		list.add (new Vector (new double[]{4,5,6}, 3));
+		list.add (new Vector (new double[]{7,8,9}, 3));
+		
+		Matrix A = new Matrix (list, 3);
+		
+		System.out.println ("input: ");
+		System.out.println (A);
+		
+		System.out.println ("\nGJE: ");
+		System.out.println (Vector.Gauss_Jordan (list, 3, new Vector (new double[]{1,2,2}, 3)));
+		
+		System.out.println ("\nDeterminant: ");
+		System.out.println (A.det ());
+		
+		System.out.println ("\nInverse: ");
+		System.out.println (A.inverse ());
+		
+		System.out.println ("\nTranspose: ");
+		System.out.println (A.transpose ());
+		/*------------ END OF SAMPLE 7 ------------*/
+		
 	}
 	
 }
